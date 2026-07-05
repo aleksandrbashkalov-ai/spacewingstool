@@ -29,6 +29,12 @@
 - **Session memory** — capture and restore workspace snapshots
 - **Privacy-first** — all data stays on your Mac unless you explicitly enable Remote AI
 
+## Screenshots
+
+<p align="center">
+  <img src="Resources/screenshots/main.png" alt="Spacewingstool app" width="720">
+</p>
+
 ## Quick Start
 
 ### From source
