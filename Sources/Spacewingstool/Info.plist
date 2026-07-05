@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>Spacewingstool</string>
+	<key>CFBundleExecutable</key>
+	<string>Spacewingstool</string>
+	<key>CFBundleIconFile</key>
+	<string>AppIcon</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.spacewingstool.app</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>Spacewingstool</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0.0</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>14.0</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 2026 Spacewingstool. All rights reserved.</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+	<key>NSSupportsAutomaticTermination</key>
+	<false/>
+	<key>LSUIElement</key>
+	<true/>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>Spacewingstool uses AppleScript to read browser tabs and app content for activity tracking.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Spacewingstool can detect when you are speaking in meetings for optional meeting transcription.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Spacewingstool can transcribe meeting audio to generate meeting notes (opt-in only).</string>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>Spacewingstool reads calendar events to detect meeting context and correlate with tracked activity.</string>
+	<key>NSScreenCaptureUsageDescription</key>
+	<string>Spacewingstool can capture screen content for optional meeting transcription with system audio.</string>
+</dict>
+</plist>
