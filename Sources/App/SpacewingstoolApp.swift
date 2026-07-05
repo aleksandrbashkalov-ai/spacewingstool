@@ -12,9 +12,15 @@ struct SpacewingstoolApp: App {
     private let settingsStore = SettingsStore.shared
     private let spaceStore = SpaceStore.shared
     private let menuBarImage: NSImage = {
-        let img = NSImage(systemSymbolName: "square.split.2x2", accessibilityDescription: "Spaces")!
-        img.isTemplate = true
-        return img
+        if let url = Bundle.module.url(forResource: "logo", withExtension: "png"),
+           let img = NSImage(contentsOf: url) {
+            img.isTemplate = true
+            img.size = NSSize(width: 18, height: 18)
+            return img
+        }
+        let fallback = NSImage(systemSymbolName: "square.split.2x2", accessibilityDescription: "Spaces")!
+        fallback.isTemplate = true
+        return fallback
     }()
 
     var body: some Scene {
@@ -39,7 +45,7 @@ struct SpacewingstoolApp: App {
     private var labelContent: some View {
         Image(nsImage: menuBarImage)
             .resizable()
-            .frame(width: 14, height: 14)
+            .frame(width: 18, height: 18)
     }
 }
 
