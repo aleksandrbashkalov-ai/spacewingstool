@@ -42,5 +42,7 @@
 	<string>Spacewingstool reads calendar events to detect meeting context and correlate with tracked activity.</string>
 	<key>NSScreenCaptureUsageDescription</key>
 	<string>Spacewingstool can capture screen content for optional meeting transcription with system audio.</string>
+	<key>NSPrivacyPolicyURL</key>
+	<string>https://spacewingstool.app/privacy</string>
 </dict>
 </plist>

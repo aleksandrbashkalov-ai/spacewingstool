@@ -177,6 +177,23 @@ public enum L10n: String, Sendable, CaseIterable {
     case burnoutSignals
     case riskLevel
     case weekendWorkWeek
+    case privacyAndData
+    case privacyConsentTitle
+    case privacyConsentDesc
+    case agreeAndContinue
+    case dataDetails
+    case deleteAllData
+    case deleteAllDataConfirm
+    case cancel
+    case dataDeleted
+    case dataManagement
+    case deleteAllDataWarning
+    case remoteAIWarningTitle
+    case remoteAIWarningMessage
+    case understandAndAgree
+    case switchToLocalAI
+    case exportMyData
+    case noDataToExport
 
     public func localized(_ lang: AppLanguage) -> String {
         Translations.strings[lang]?[self] ?? Translations.strings[.en]?[self] ?? rawValue
@@ -360,6 +377,23 @@ private enum Translations {
             .burnoutSignals: "Burnout Signals",
             .riskLevel: "Risk Level",
             .weekendWorkWeek: "Weekend Work (Week)",
+            .privacyAndData: "Privacy & Data",
+            .privacyConsentTitle: "Privacy & Data Collection",
+            .privacyConsentDesc: "Spacewingstool collects app activity data (open apps, window titles, browser URLs) to provide intelligent workspace features. It can also track reading, writing, email, media, and meetings when enabled.\n\nAll data is stored locally on your device unless you explicitly enable Remote AI. No data is shared without your consent.\n\nYou can change these settings at any time in Settings > Privacy.",
+            .agreeAndContinue: "I Agree & Continue",
+            .dataDetails: "See details about data collection",
+            .deleteAllData: "Delete All Collected Data",
+            .deleteAllDataConfirm: "Delete Everything",
+            .cancel: "Cancel",
+            .dataDeleted: "All data has been deleted.",
+            .dataManagement: "Data Management",
+            .deleteAllDataWarning: "This will permanently delete all collected activity data, summaries, and settings snapshots. This action cannot be undone.",
+            .remoteAIWarningTitle: "Data Will Be Sent to Remote Server",
+            .remoteAIWarningMessage: "Enabling Remote AI will send your activity data (apps used, window titles, URLs, reading/writing content) to the configured endpoint for analysis.\n\nPlease ensure the endpoint is trusted and complies with applicable privacy standards.",
+            .understandAndAgree: "I Understand & Agree",
+            .switchToLocalAI: "Switch to Local AI",
+            .exportMyData: "Export My Data",
+            .noDataToExport: "No data to export.",
         ],
         .es: [
             .appName: "Spacewingstool",
@@ -508,6 +542,23 @@ private enum Translations {
             .burnoutSignals: "Señales de agotamiento",
             .riskLevel: "Nivel de riesgo",
             .weekendWorkWeek: "Trabajo en fin de semana",
+            .privacyAndData: "Privacidad y datos",
+            .privacyConsentTitle: "Privacidad y recopilación de datos",
+            .privacyConsentDesc: "Spacewingstool recopila datos de actividad de la aplicación (aplicaciones abiertas, títulos de ventanas, URL del navegador) para proporcionar espacios de trabajo inteligentes. También puede rastrear lectura, escritura, correo electrónico, medios y reuniones si está habilitado.\n\nTodos los datos se almacenan localmente en su dispositivo a menos que habilite explícitamente la IA remota. No se comparten datos sin su consentimiento.\n\nPuede cambiar estas configuraciones en cualquier momento en Ajustes > Privacidad.",
+            .agreeAndContinue: "Acepto y continuar",
+            .dataDetails: "Ver detalles sobre la recopilación de datos",
+            .deleteAllData: "Eliminar todos los datos recopilados",
+            .deleteAllDataConfirm: "Eliminar todo",
+            .cancel: "Cancelar",
+            .dataDeleted: "Todos los datos han sido eliminados.",
+            .dataManagement: "Gestión de datos",
+            .deleteAllDataWarning: "Esto eliminará permanentemente todos los datos de actividad recopilados, resúmenes y capturas de configuración. Esta acción no se puede deshacer.",
+            .remoteAIWarningTitle: "Los datos se enviarán a un servidor remoto",
+            .remoteAIWarningMessage: "Al habilitar la IA remota, sus datos de actividad (aplicaciones utilizadas, títulos de ventanas, URL, contenido de lectura/escritura) se enviarán al punto final configurado para su análisis.\n\nAsegúrese de que el punto final sea de confianza y cumpla con los estándares de privacidad aplicables.",
+            .understandAndAgree: "Entiendo y acepto",
+            .switchToLocalAI: "Cambiar a IA local",
+            .exportMyData: "Exportar mis datos",
+            .noDataToExport: "No hay datos para exportar.",
         ],
         .fr: [
             .appName: "Spacewingstool",

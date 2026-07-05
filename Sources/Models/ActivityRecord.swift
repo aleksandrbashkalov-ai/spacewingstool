@@ -233,14 +233,14 @@ public struct PrivacySettings: Codable, Sendable, Equatable {
     }
 
     public static let `default` = PrivacySettings(
-        trackReading: true,
-        trackReadingContent: .preview,
-        trackWriting: true,
-        trackWritingContent: .metadataOnly,
-        trackEmail: true,
-        trackEmailBody: .preview,
-        trackMedia: true,
-        trackMeetings: true,
+        trackReading: false,
+        trackReadingContent: .off,
+        trackWriting: false,
+        trackWritingContent: .off,
+        trackEmail: false,
+        trackEmailBody: .off,
+        trackMedia: false,
+        trackMeetings: false,
         recordMeetingAudio: false,
         dataRetentionDays: 30,
         useAIEnhancement: false,

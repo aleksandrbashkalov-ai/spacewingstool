@@ -148,13 +148,16 @@ struct DeepWorkHeatmapView: View {
 
     private func cell(for date: Date) -> some View {
         let hours = deepWorkData[date] ?? 0
-        return Rectangle()
-            .fill(color(for: hours))
-            .frame(width: 14, height: 14)
-            .cornerRadius(2)
-            .onTapGesture {
-                selectedDate = (selectedDate == date) ? nil : date
-            }
+        return Button {
+            selectedDate = (selectedDate == date) ? nil : date
+        } label: {
+            Rectangle()
+                .fill(color(for: hours))
+                .frame(width: 14, height: 14)
+                .cornerRadius(2)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("\(date.formatted(date: .abbreviated, time: .omitted)): \(formatDuration(hours)) of deep work")
     }
 
     private func color(for hours: TimeInterval) -> Color {

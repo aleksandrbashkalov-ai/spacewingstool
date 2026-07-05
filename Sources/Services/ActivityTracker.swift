@@ -97,6 +97,12 @@ public actor ActivityTracker {
         return try db.activityTypeSummary(in: range)
     }
 
+    public func deleteAllData() async throws {
+        guard let db = database else { return }
+        try db.deleteAll()
+        Log.info("All activity data deleted")
+    }
+
     // MARK: - Maintenance
 
     public func runRetentionCleanup() {

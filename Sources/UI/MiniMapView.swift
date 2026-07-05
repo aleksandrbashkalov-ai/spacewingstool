@@ -63,14 +63,16 @@ struct MiniMapView: View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 4) {
                 ForEach(spaceStore.spaces) { space in
-                    SpaceCellView(space: space)
-                        .onTapGesture {
-                            withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
-                                spaceStore.activateSpace(space)
-                            }
+                    Button {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+                            spaceStore.activateSpace(space)
                         }
-                        .accessibilityLabel("\(space.name) space")
-                        .accessibilityAddTraits(space.isActive ? .isSelected : [])
+                    } label: {
+                        SpaceCellView(space: space)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("\(space.name) space")
+                    .accessibilityAddTraits(space.isActive ? .isSelected : [])
                 }
             }
             .padding(.horizontal, 8)

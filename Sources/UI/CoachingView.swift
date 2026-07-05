@@ -68,12 +68,14 @@ struct CoachingView: View {
                 } else {
                     LazyVStack(spacing: 6) {
                         ForEach(adviceItems) { advice in
-                            AdviceCard(advice: advice)
-                                .onTapGesture {
-                                    selectedAdvice = advice
-                                    Task { await coachingService.markRead(advice.id) }
-                                }
-                                .contextMenu {
+                            Button {
+                                selectedAdvice = advice
+                                Task { await coachingService.markRead(advice.id) }
+                            } label: {
+                                AdviceCard(advice: advice)
+                            }
+                            .buttonStyle(.plain)
+                            .contextMenu {
                                     Button(advice.isDismissed ? L10n.show.localized : L10n.dismiss.localized) {
                                         if advice.isDismissed {
                                             selectedAdvice = nil

@@ -4,6 +4,9 @@ import SwiftUI
 struct PrivacySettingsView: View {
     @Environment(SettingsStore.self) private var settings
 
+    @State private var showDeleteConfirmation = false
+    @State private var deleteCompleted = false
+
     var body: some View {
         @Bindable var settings = settings
         Form {
@@ -15,6 +18,20 @@ struct PrivacySettingsView: View {
                 Text(L10n.permissions.localized)
             } footer: {
                 Text(L10n.permFooter.localized)
+            }
+
+            Section(L10n.dataManagement.localized) {
+                Button(L10n.deleteAllData.localized, role: .destructive) {
+                    showDeleteConfirmation = true
+                }
+                Button(L10n.exportMyData.localized) {
+                    Task { await exportData() }
+                }
+                if deleteCompleted {
+                    Text(L10n.dataDeleted.localized)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
             }
 
             Section(L10n.readingTracking.localized) {
@@ -62,6 +79,38 @@ struct PrivacySettingsView: View {
             }
         }
         .formStyle(.grouped)
+        .alert(L10n.deleteAllDataConfirm.localized, isPresented: $showDeleteConfirmation) {
+            Button(L10n.cancel.localized, role: .cancel) { }
+            Button(L10n.deleteAllDataConfirm.localized, role: .destructive) {
+                Task { await deleteAllData() }
+            }
+        } message: {
+            Text(L10n.deleteAllDataWarning.localized)
+        }
+    }
+
+    private func deleteAllData() async {
+        try? await ActivityTracker.shared.deleteAllData()
+        await PersistenceService.shared.clearAll()
+        deleteCompleted = true
+    }
+
+    private func exportData() async {
+        let records: [ActivityRecord]
+        do {
+            records = try await ActivityTracker.shared.recentRecords(hours: 8760)
+        } catch {
+            Log.error("Export failed: \(error.localizedDescription)")
+            return
+        }
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        guard let data = try? encoder.encode(records) else { return }
+        let panel = NSSavePanel()
+        panel.nameFieldStringValue = "spacewingstool-export.json"
+        panel.allowedContentTypes = [.json]
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        try? data.write(to: url)
     }
 
     private func captureLevelLabel(_ level: PrivacySettings.ContentCaptureLevel) -> String {

@@ -44,4 +44,12 @@ public actor PersistenceService {
         let url = baseURL.appendingPathComponent("\(key).json")
         try? FileManager.default.removeItem(at: url)
     }
+
+    public func clearAll() {
+        let fm = FileManager.default
+        guard let enumerator = fm.enumerator(at: baseURL, includingPropertiesForKeys: nil) else { return }
+        for case let fileURL as URL in enumerator where fileURL.pathExtension == "json" {
+            try? fm.removeItem(at: fileURL)
+        }
+    }
 }

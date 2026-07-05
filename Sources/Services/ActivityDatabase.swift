@@ -259,6 +259,16 @@ public struct ActivityDatabase {
     // MARK: - Maintenance
 
     @discardableResult
+    public func deleteAll() throws {
+        try dbQueue.write { db in
+            try db.execute(sql: "DELETE FROM activity_record")
+            try db.execute(sql: "DELETE FROM activity_summary")
+            try db.execute(sql: "DELETE FROM settings_snapshot")
+            try db.execute(sql: "INSERT INTO activity_fts(activity_fts) VALUES('rebuild')")
+        }
+    }
+
+    @discardableResult
     public func deleteOlderThan(_ date: Date) throws -> Int {
         try dbQueue.write { db in
             try db.execute(sql: "DELETE FROM activity_record WHERE timestamp < ?", arguments: [date])

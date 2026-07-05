@@ -230,21 +230,25 @@ struct AddSpaceView: View {
     }
 
     private func iconCell(_ icon: String) -> some View {
-        Image(systemName: icon)
-            .font(.title3)
-            .foregroundStyle(selectedIcon == icon ? .white : .primary)
-            .frame(width: 36, height: 36)
-            .background {
-                if selectedIcon == icon {
-                    Color.accentColor
-                } else {
-                    RoundedRectangle(cornerRadius: 8).fill(.fill.quaternary)
+        Button {
+            selectedIcon = icon
+        } label: {
+            Image(systemName: icon)
+                .font(.title3)
+                .foregroundStyle(selectedIcon == icon ? .white : .primary)
+                .frame(width: 36, height: 36)
+                .background {
+                    if selectedIcon == icon {
+                        Color.accentColor
+                    } else {
+                        RoundedRectangle(cornerRadius: 8).fill(.fill.quaternary)
+                    }
                 }
-            }
-            .clipShape(.rect(cornerRadius: 8))
-            .onTapGesture { selectedIcon = icon }
-            .accessibilityLabel("Icon \(icon)")
-            .accessibilityAddTraits(selectedIcon == icon ? .isSelected : [])
+                .clipShape(.rect(cornerRadius: 8))
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Icon \(icon)")
+        .accessibilityAddTraits(selectedIcon == icon ? .isSelected : [])
     }
 
     private var actionButtons: some View {
