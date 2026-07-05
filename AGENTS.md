@@ -5,7 +5,10 @@
 Spacewingstool is a native macOS application built with Swift 5.10 (Xcode 15.3+), SwiftUI + AppKit that serves as an intelligent, context-aware workspace manager. It automatically creates, switches, and optimizes workspaces (Spaces) based on real-time analysis of open applications, active windows, calendar events, focus mode, and time of day.
 
 **Universal binary**: Supports both Intel (x86_64) and Apple Silicon (arm64).
-**Deployment target**: macOS 14 (Sonoma) and later.
+**Deployment target**: macOS 14 (Sonoma) and later. Forward-compatible with all future versions.
+**Distribution**: Free & open-source on GitHub (MIT). NOT on Mac App Store — no sandbox, no entitlements needed.
+**Signing**: Ad-hoc signing with free Apple ID is sufficient. No paid Apple Developer Program required.
+**Dependencies**: GRDB only. Local AI via NLTagger (built-in). Remote AI via OpenAI-compatible API (optional).
 **Energy efficient**: Adaptive polling based on thermal state, background activity assertion, lightweight polling timer.
 
 ### Core Principles
