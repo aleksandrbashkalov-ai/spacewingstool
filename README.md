@@ -10,6 +10,7 @@
   <a href="https://swift.org"><img src="https://img.shields.io/badge/Swift-5.10+-F05138?logo=swift" alt="Swift 5.10+"></a>
   <img src="https://img.shields.io/badge/macOS-14+-black?logo=apple" alt="macOS 14+">
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green" alt="MIT"></a>
+  <a href="https://github.com/aleksandrbashkalov-ai/spacewingstool/actions"><img src="https://github.com/aleksandrbashkalov-ai/spacewingstool/actions/workflows/swift.yml/badge.svg" alt="Build"></a>
   <img src="https://img.shields.io/badge/Apple_Silicon-Intel-blue?logo=apple" alt="Apple Silicon + Intel">
 </p>
 
