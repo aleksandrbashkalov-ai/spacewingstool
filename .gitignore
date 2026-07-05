@@ -11,3 +11,5 @@ build/
 .env
 .env.local
 .xcode-version
+Packages/
+.swiftpm/xcuserdata/
