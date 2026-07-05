@@ -1,5 +1,8 @@
 # Spacewingstool — Activity Intelligence Platform
 
+> **Distribution**: Free & open-source on GitHub. Not on Mac App Store.
+> **Minimum OS**: macOS 14 (Sonoma). Forward-compatible with all future versions.
+
 ## Vision
 AI-native macOS assistant that tracks everything, understands context, and delivers actionable intelligence — all privacy-first, fully under user control.
 
@@ -80,8 +83,7 @@ CREATE INDEX idx_activities_app ON activities(app_bundle_id);
 - Tracks: Accessibility, Screen Recording, Microphone, Input Monitoring, Full Disk Access, Calendar, Notifications
 - Onboarding UI for each permission with clear explanation
 - Graceful degradation: if permission denied, tracker shows "limited mode"
-- **Recording indicator**: menu bar icon changes to "recording" state (red dot / pulsing) while any tracker captures content (per Guideline 2.5.14)
-- Optional audible alert on first capture of each session
+- Menu bar icon shows recording state (SF Symbol changes) while any tracker captures content
 
 ### 0.3 Privacy Controls
 - `PrivacySettingsView.swift` — per-category toggles:
@@ -91,18 +93,15 @@ CREATE INDEX idx_activities_app ON activities(app_bundle_id);
   - Track Music: on/off
   - Track Meetings: on/off, record audio: on/off
 - Data retention: 7/30/90 days / forever
-- "Delete all data" button per category
+- "Delete all data" button per category + "Export my data"
 - Local-only indicator: "All data stays on this Mac" / "AI uses remote provider"
-- **Remote AI consent screen**: before enabling, user must explicitly agree to data leaving device (Guideline 5.1.2(i))
-- **Login item**: must ask user consent before adding to Login Items (Guideline 2.4.5(iii))
+- Remote AI warning: before enabling, user sees alert that data will leave the device
 
-### 0.4 Privacy Policy & Manifest
-- In-app privacy policy view: `PrivacyPolicyView.swift` with link to full policy (Guideline 5.1.1(i))
-- `PrivacyInfo.xcprivacy` manifest declaring Required Reason APIs:
-  - File Timestamp API (Accessibility events → file access timestamps)
-  - System Boot Time API (uptime tracking)
-  - Disk Space API (storage for activity DB)
-- Paid features must never require mandatory permission grants (Guideline 5.1.1(ii))
+### 0.4 Documentation & Transparency
+- `README.md`: build instructions, feature overview, dependency list
+- `LICENSE`: MIT or Apache 2.0
+- `Privacy.md`: explain what data is collected, where it's stored, how to delete it
+- No App Store entitlements, no sandbox, no code signing required
 
 ---
 
@@ -429,13 +428,13 @@ protocol AIProvider: Sendable {
 ### Data Classification
 | Category | Default | Stored | Encryption |
 |----------|---------|--------|------------|
-| Reading content | On (preview only) | Local SQLite | Full disk |
-| Writing metadata | On | Local SQLite | Full disk |
+| Reading content | Off (opt-in) | Local SQLite | Full disk |
+| Writing metadata | Off (opt-in) | Local SQLite | Full disk |
 | Writing content | Off | Local SQLite | Full disk |
-| Email metadata | On | Local SQLite | Full disk |
-| Email body | Off (preview only) | Local SQLite | Full disk |
-| Music listening | On | Local SQLite | Full disk |
-| Meeting metadata | On | Local SQLite | Full disk |
+| Email metadata | Off (opt-in) | Local SQLite | Full disk |
+| Email body | Off | Local SQLite | Full disk |
+| Music listening | Off (opt-in) | Local SQLite | Full disk |
+| Meeting metadata | Off (opt-in) | Local SQLite | Full disk |
 | Meeting audio | Off | Not stored | N/A |
 | Meeting transcript | Off | Local SQLite | Full disk |
 
@@ -450,17 +449,18 @@ protocol AIProvider: Sendable {
 
 ## Permission Requirements
 
-| Permission | Trackers | Info.plist Key |
-|-----------|----------|----------------|
-| Accessibility | Reading, Writing, Email, Meetings | `NSAppleEventsUsageDescription` |
-| Screen Recording | Meetings (transcription) | `NSScreenCaptureUsageDescription` |
-| Microphone | Meetings (user's voice) | `NSMicrophoneUsageDescription` |
-| Speech Recognition | Meetings (transcription) | `NSSpeechRecognitionUsageDescription` |
-| Input Monitoring | Writing (keystroke stats) | — (requires code signing) |
-| Full Disk Access | Email (Mail SQLite) | — |
-| Calendar | Meetings, Email | `NSCalendarsFullAccessUsageDescription` |
-| Notifications | All | `NSUserNotificationAlertStyle` |
-| iCloud | Sync | `com.apple.developer.icloud-services` |
+| Permission | Trackers | Info.plist Key | Notes |
+|-----------|----------|----------------|-------|
+| Accessibility | Reading, Writing, Email, Meetings | `NSAppleEventsUsageDescription` | Required. User grants in System Settings |
+| Screen Recording | Meetings (transcription) | `NSScreenCaptureUsageDescription` | Optional |
+| Microphone | Meetings (user's voice) | `NSMicrophoneUsageDescription` | Optional |
+| Speech Recognition | Meetings (transcription) | `NSSpeechRecognitionUsageDescription` | Optional |
+| Input Monitoring | Writing (keystroke stats) | — | Requires ad-hoc signing (free Apple ID) |
+| Full Disk Access | Email (Mail SQLite) | — | Optional |
+| Calendar | Meetings, Email | `NSCalendarsFullAccessUsageDescription` | Optional |
+| Notifications | All | `NSUserNotificationAlertStyle` | Nice to have |
+
+> **Signing**: No paid Apple Developer Program needed. Ad-hoc signing with free Apple ID works for local builds. Pre-built binaries can be notarized via `swift build -c release` + `codesign`.
 
 ---
 
@@ -469,14 +469,16 @@ protocol AIProvider: Sendable {
 | Component | Technology |
 |-----------|-----------|
 | Database | GRDB (SQLite + FTS5) |
-| Local AI | mlx-swift (GPU/ANE) |
-| Remote AI | OpenAI-compatible API |
-| Speech | SFSpeechRecognizer + WhisperKit |
+| Local AI | NLTagger (built-in, no dependencies) |
+| Remote AI | OpenAI-compatible API (optional, opt-in) |
+| Speech | SFSpeechRecognizer (on-device) |
 | Audio capture | ScreenCaptureKit + AVAudioEngine |
 | UI | SwiftUI (macOS 14+) |
-| Sync | CloudKit |
+| Sync | User-driven export/import JSON (no CloudKit — no Apple Developer fee required) |
 | Keychain | Keychain Services API |
-| Now Playing | MediaRemote (private) + AppleScript |
+| Now Playing | AppleScript + MediaRemote |
+| Dependencies | GRDB only |
+| Distribution | GitHub Releases (uncompiled source + pre-built binary via CI) |
 
 ---
 
@@ -505,7 +507,9 @@ This turns Spacewingstool from a workspace manager into a **full Activity Intell
 - **Track everything**: reading, writing, email, music, meetings
 - **Understand everything**: AI summarizes, extracts tasks, detects patterns
 - **Report everything**: daily/weekly insights, customizable
-- **Privacy-first**: all data local by default, user controls every category
+- **Privacy-first**: all data local by default, user controls every category (all off by default)
 - **Settings versioning**: unique timeline + rollback + AI suggestions
+- **Free & open-source**: MIT license, GitHub-only distribution, no App Store
+- **Zero paid dependencies**: GRDB only, local AI via NLTagger, no Apple Developer fee
 
 Ready when you are. Say "go" and I start building Phase 0.
