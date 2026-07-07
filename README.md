@@ -39,6 +39,10 @@ cd Spacewingstool
 swift run
 ```
 
+### Pre-built binary
+
+Download the latest `Spacewingstool-*.zip` from the [Releases](https://github.com/aleksandrbashkalov-ai/spacewingstool/releases) page, unzip, and move `Spacewingstool.app` to your `Applications` folder.
+
 ### Requirements
 
 - macOS 14 Sonoma or later
