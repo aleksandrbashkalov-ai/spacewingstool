@@ -20,12 +20,30 @@
   <b>License:</b> MIT &bull; <a href="PRIVACY.md">Privacy</a>
 </p>
 
+## Overview
+
+Spacewingstool is an intelligent workspace manager for macOS that automatically organizes your digital environment based on what you're doing. It analyzes your active apps, windows, calendar events, and focus modes to switch between matching workspaces in real time — no manual setup required.
+
+### Problems it solves
+
+- **Window chaos** — dozens of windows open for different tasks, wasting time finding the right one
+- **Manual space switching** — constantly creating, renaming, and switching between desktops
+- **Context loss** — interrupted a task and forgot what you had open
+- **No time analytics** — no insight into how much time you actually spend coding, reading, in meetings, etc.
+
+### How it boosts productivity
+
+- **Less context switching** — each switch costs ~23 minutes of lost focus. Spacewingstool minimizes this
+- **Focused workspaces** — when a space is dedicated to one task, distractions drop
+- **Daily AI reports** — get an objective picture of your real work time, what you worked on, and what to improve
+- **Automated routine** — set it once: spaces switch themselves, reports generate themselves, analytics track themselves
+
 ## Features
 
 - **Smart context detection** — analyzes open apps, windows, calendar, and focus mode
 - **Auto-switch spaces** — automatically transitions between workspaces
 - **Activity tracking** — reading, writing, email, media, meetings (all **off by default**)
-- **AI productivity coach** — local NLP-based insights and recommendations
+- **AI productivity coach** — local NLP-based insights and recommendations with daily and weekly reports
 - **Session memory** — capture and restore workspace snapshots
 - **Privacy-first** — all data stays on your Mac unless you explicitly enable Remote AI
 
