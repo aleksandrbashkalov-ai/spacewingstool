@@ -61,6 +61,13 @@ swift run
 
 Download the latest `Spacewingstool-*.zip` from the [Releases](https://github.com/aleksandrbashkalov-ai/spacewingstool/releases) page, unzip, and move `Spacewingstool.app` to your `Applications` folder.
 
+> **Note:** The app is ad-hoc signed (no Apple Developer ID). On first launch, macOS Gatekeeper may block it.
+> To open it for the first time:
+> - **Right-click** (or Ctrl+click) the app → **Open** → click **Open** in the dialog, **or**
+> - Run this in Terminal: `xattr -d com.apple.quarantine /Applications/Spacewingstool.app`
+>
+> This only needs to be done once. After that, the app launches normally.
+
 ### Requirements
 
 - macOS 14 Sonoma or later
@@ -87,6 +94,13 @@ swift build -c release --arch arm64 --arch x86_64
 
 # Run tests
 swift test
+
+# Package .app bundle (after universal build)
+# The universal binary is at .build/apple/Products/Release/Spacewingstool
+# Copy it into the .app bundle and ad-hoc sign:
+cp .build/apple/Products/Release/Spacewingstool .build/release/Spacewingstool.app/Contents/MacOS/
+codesign --force --deep --sign - --entitlements Spacewingstool.entitlements --options runtime .build/release/Spacewingstool.app
+ditto -c -k --sequesterRsrc --keepParent .build/release/Spacewingstool.app Spacewingstool-v1.1.0.zip
 ```
 
 ## Privacy
