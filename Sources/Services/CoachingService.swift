@@ -64,7 +64,9 @@ public actor CoachingService {
 
     public func analyzeDeepWork(for date: Date) async -> DeepWorkAnalysis {
         let dayStart = Calendar.current.startOfDay(for: date)
-        let dayEnd = Calendar.current.date(byAdding: .day, value: 1, to: dayStart)!
+        guard let dayEnd = Calendar.current.date(byAdding: .day, value: 1, to: dayStart) else {
+            return DeepWorkAnalysis()
+        }
         let range = dayStart...dayEnd
 
         guard let records = try? await ActivityTracker.shared.records(in: range) else {
@@ -147,7 +149,9 @@ public actor CoachingService {
     public func detectBurnoutSignals(for date: Date) async -> BurnoutSignals {
         let calendar = Calendar.current
         let dayStart = calendar.startOfDay(for: date)
-        let dayEnd = calendar.date(byAdding: .day, value: 1, to: dayStart)!
+        guard let dayEnd = calendar.date(byAdding: .day, value: 1, to: dayStart) else {
+            return BurnoutSignals()
+        }
         let range = dayStart...dayEnd
 
         guard let records = try? await ActivityTracker.shared.records(in: range) else {
@@ -167,7 +171,8 @@ public actor CoachingService {
 
         for dayOffset in 0..<7 {
             let day = calendar.date(byAdding: .day, value: -dayOffset, to: date)!
-            guard let dayRecords = try? await ActivityTracker.shared.records(in: calendar.startOfDay(for: day)...calendar.date(byAdding: .day, value: 1, to: calendar.startOfDay(for: day))!) else { continue }
+            guard let nextDay = calendar.date(byAdding: .day, value: 1, to: calendar.startOfDay(for: day)),
+                  let dayRecords = try? await ActivityTracker.shared.records(in: calendar.startOfDay(for: day)...nextDay) else { continue }
 
             let dayTotal = dayRecords.reduce(0) { $0 + $1.duration }
             if dayTotal > 3600 {

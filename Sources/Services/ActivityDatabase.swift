@@ -258,7 +258,6 @@ public struct ActivityDatabase {
 
     // MARK: - Maintenance
 
-    @discardableResult
     public func deleteAll() throws {
         try dbQueue.write { db in
             try db.execute(sql: "DELETE FROM activity_record")

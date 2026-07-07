@@ -9,7 +9,9 @@ public actor IntelligenceService {
 
     public func generateDailyReport(for date: Date) async throws -> DailyReport {
         let dayStart = Calendar.current.startOfDay(for: date)
-        let dayEnd = Calendar.current.date(byAdding: .day, value: 1, to: dayStart)!
+        guard let dayEnd = Calendar.current.date(byAdding: .day, value: 1, to: dayStart) else {
+            throw IntelligenceError.invalidDateRange
+        }
         let range = dayStart...dayEnd
 
         let records = try await ActivityTracker.shared.records(in: range)
@@ -55,7 +57,9 @@ public actor IntelligenceService {
     // MARK: - Weekly Report
 
     public func generateWeeklyReport(weekStart: Date) async throws -> WeeklyReport {
-        let weekEnd = Calendar.current.date(byAdding: .day, value: 7, to: weekStart)!
+        guard let weekEnd = Calendar.current.date(byAdding: .day, value: 7, to: weekStart) else {
+            throw IntelligenceError.invalidDateRange
+        }
         var dailyReports: [DailyReport] = []
         var allRecords: [ActivityRecord] = []
         var currentDate = weekStart
@@ -63,7 +67,9 @@ public actor IntelligenceService {
         while currentDate < weekEnd {
             let report = try await generateDailyReport(for: currentDate)
             dailyReports.append(report)
-            let dayEnd = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)!
+            guard let dayEnd = Calendar.current.date(byAdding: .day, value: 1, to: currentDate) else {
+                throw IntelligenceError.invalidDateRange
+            }
             let dayRecords = try await ActivityTracker.shared.records(in: currentDate...dayEnd)
             allRecords.append(contentsOf: dayRecords)
             currentDate = dayEnd
@@ -204,6 +210,19 @@ public actor IntelligenceService {
         let (system, user) = AIPromptTemplates.taskPrioritization(tasks: tasks)
         _ = try await provider.generateSummary(systemPrompt: system, userMessage: user)
         return tasks
+    }
+
+    // MARK: - Errors
+
+    public enum IntelligenceError: LocalizedError {
+        case invalidDateRange
+
+        public var errorDescription: String? {
+            switch self {
+            case .invalidDateRange:
+                return "The specified date range is invalid."
+            }
+        }
     }
 
     private func resolveProvider() throws -> AIProvider {
