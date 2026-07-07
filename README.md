@@ -99,6 +99,13 @@ swift run
 6. Configure tracking categories in Settings → Privacy (all disabled by default)
 7. Optionally enable AI Enhancement in Settings → AI
 
+> **Note:** The app is ad-hoc signed (no Apple Developer ID). On first launch, macOS Gatekeeper may block it.
+> To open it for the first time:
+> - **Right-click** (or Ctrl+click) the app → **Open** → click **Open** in the dialog, **or**
+> - Run this in Terminal: `xattr -d com.apple.quarantine /Applications/Spacewingstool.app`
+>
+> This only needs to be done once. After that, the app launches normally.
+
 ### Requirements
 
 - macOS 14 Sonoma or later
