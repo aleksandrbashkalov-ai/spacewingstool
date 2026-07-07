@@ -59,26 +59,30 @@ swift run
 
 ### Pre-built binary
 
-Download the latest `Spacewingstool-*.zip` from the [Releases](https://github.com/aleksandrbashkalov-ai/spacewingstool/releases) page, unzip, and move `Spacewingstool.app` to your `Applications` folder.
+1. Download the latest `Spacewingstool-*.zip` from the [Releases](https://github.com/aleksandrbashkalov-ai/spacewingstool/releases) page
+2. Unzip the archive
+3. Move `Spacewingstool.app` to your `Applications` folder
+4. **First launch only** — macOS Gatekeeper will block the app because it is ad-hoc signed (not notarized with an Apple Developer ID). To bypass:
 
-> **Note:** The app is ad-hoc signed (no Apple Developer ID). On first launch, macOS Gatekeeper may block it.
-> To open it for the first time:
-> - **Right-click** (or Ctrl+click) the app → **Open** → click **Open** in the dialog, **or**
-> - Run this in Terminal: `xattr -d com.apple.quarantine /Applications/Spacewingstool.app`
->
-> This only needs to be done once. After that, the app launches normally.
+   **Option A — Right-click:**
+   - Right-click (or Ctrl+click) `Spacewingstool.app` in `Applications` → select **Open** → click **Open** in the dialog
+
+   **Option B — Terminal (one command):**
+   ```bash
+   xattr -d com.apple.quarantine /Applications/Spacewingstool.app
+   ```
+
+   After either step, the app launches normally. This is a one-time requirement.
+
+5. Grant Accessibility permission when prompted (required for window monitoring)
+6. Configure tracking categories in Settings → Privacy (all disabled by default)
+7. Optionally enable AI Enhancement in Settings → AI
 
 ### Requirements
 
 - macOS 14 Sonoma or later
 - Xcode 15.3+ or Command Line Tools
 - Swift 5.10+
-
-### First launch
-
-1. Grant Accessibility permission when prompted (required for window monitoring)
-2. Configure tracking categories in Settings → Privacy (all disabled by default)
-3. Optionally enable AI Enhancement in Settings → AI
 
 ## Build
 
