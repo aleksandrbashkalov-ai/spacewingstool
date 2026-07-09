@@ -20,6 +20,27 @@
   <b>License:</b> MIT &bull; <a href="PRIVACY.md">Privacy</a>
 </p>
 
+---
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Problems It Solves](#problems-it-solves)
+- [How It Boosts Productivity](#how-it-boosts-productivity)
+- [Features](#features)
+- [Quick Start](#quick-start)
+- [Build](#build)
+- [Privacy](#privacy)
+- [Configuration](#configuration)
+- [Built With](#built-with)
+- [Project Structure](#project-structure)
+- [Dependencies](#dependencies)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
+
 ## Overview
 
 Spacewingstool is an intelligent workspace manager for macOS that automatically organizes your digital environment based on what you're doing. It analyzes your active apps, windows, calendar events, and focus modes to switch between matching workspaces in real time — no manual setup required.
@@ -130,6 +151,16 @@ Key preferences:
 - Data retention (default: 30 days)
 - Per-category tracking toggles
 - AI provider (local/remote) and endpoint
+
+## Built With
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Swift-5.10-FA7343?style=flat-square&logo=swift" alt="Swift">
+  <img src="https://img.shields.io/badge/SwiftUI-05122A?style=flat-square&logo=swift" alt="SwiftUI">
+  <img src="https://img.shields.io/badge/GRDB_(SQLite)-003B57?style=flat-square&logo=sqlite" alt="GRDB">
+  <img src="https://img.shields.io/badge/Core_NLP-2C2C2C?style=flat-square&logo=apple" alt="Core NLP">
+  <img src="https://img.shields.io/badge/macOS_14+-lightgrey?style=flat-square&logo=apple" alt="macOS 14+">
+</p>
 
 ## Project Structure
 
