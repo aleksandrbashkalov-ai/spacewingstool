@@ -20,27 +20,6 @@
   <b>License:</b> MIT &bull; <a href="PRIVACY.md">Privacy</a>
 </p>
 
----
-
-## 📋 Зміст
-
-- [Огляд (Overview)](#overview)
-- [Проблеми, які вирішує](#problems-it-solves)
-- [Як підвищує продуктивність](#how-it-boosts-productivity)
-- [Можливості (Features)](#features)
-- [Швидкий старт (Quick Start)](#quick-start)
-- [Збірка (Build)](#build)
-- [Приватність (Privacy)](#privacy)
-- [Конфігурація (Configuration)](#configuration)
-- [З чого зроблено (Built With)](#built-with)
-- [Структура проєкту (Project Structure)](#project-structure)
-- [Залежності (Dependencies)](#dependencies)
-- [Дорожня карта (Roadmap)](#roadmap)
-- [Як допомогти (Contributing)](#contributing)
-- [Ліцензія (License)](#license)
-
----
-
 ## Overview
 
 Spacewingstool is an intelligent workspace manager for macOS that automatically organizes your digital environment based on what you're doing. It analyzes your active apps, windows, calendar events, and focus modes to switch between matching workspaces in real time — no manual setup required.
@@ -99,13 +78,6 @@ swift run
 6. Configure tracking categories in Settings → Privacy (all disabled by default)
 7. Optionally enable AI Enhancement in Settings → AI
 
-> **Note:** The app is ad-hoc signed (no Apple Developer ID). On first launch, macOS Gatekeeper may block it.
-> To open it for the first time:
-> - **Right-click** (or Ctrl+click) the app → **Open** → click **Open** in the dialog, **or**
-> - Run this in Terminal: `xattr -d com.apple.quarantine /Applications/Spacewingstool.app`
->
-> This only needs to be done once. After that, the app launches normally.
-
 ### Requirements
 
 - macOS 14 Sonoma or later
@@ -158,24 +130,6 @@ Key preferences:
 - Data retention (default: 30 days)
 - Per-category tracking toggles
 - AI provider (local/remote) and endpoint
-
-## Built With
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Swift-5.10-FA7343?style=flat-square&logo=swift" alt="Swift">
-  <img src="https://img.shields.io/badge/SwiftUI-05122A?style=flat-square&logo=swift" alt="SwiftUI">
-  <img src="https://img.shields.io/badge/GRDB_(SQLite)-003B57?style=flat-square&logo=sqlite" alt="GRDB">
-  <img src="https://img.shields.io/badge/Core_NLP-2C2C2C?style=flat-square&logo=apple" alt="Core NLP">
-  <img src="https://img.shields.io/badge/macOS_14+-lightgrey?style=flat-square&logo=apple" alt="macOS 14+">
-</p>
-
-| Категорія | Технологія |
-|-----------|-----------|
-| Мова | Swift 5.10+ |
-| UI | SwiftUI |
-| База даних | GRDB (SQLite) |
-| NLP | NaturalLanguage framework (local) |
-| Мінімальна версія | macOS 14.0 |
 
 ## Project Structure
 
