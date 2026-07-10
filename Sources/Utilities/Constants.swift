@@ -2,7 +2,7 @@ import Foundation
 
 public enum Constants {
     public static let appName = "Spacewingstool"
-    public static let appVersion = "1.0.0"
+    public static let appVersion = "1.2.0"
     public static let appBundleID = "com.spacewingstool.app"
 
     public static let defaultPollingInterval: TimeInterval = 2.0
