@@ -48,6 +48,11 @@ struct SettingsView: View {
                 .tabItem {
                     Label(L10n.monitor.localized, systemImage: "eye.fill")
                 }
+
+            UpdatesSettingsView()
+                .tabItem {
+                    Label("Updates", systemImage: "arrow.down.circle.dotted")
+                }
         }
         .scenePadding()
         .frame(minWidth: 550, minHeight: 420)
@@ -177,6 +182,130 @@ struct ShortcutsSettingsView: View {
                 .padding(.vertical, 4)
                 .background(.fill.quaternary)
                 .clipShape(.rect(cornerRadius: 4))
+        }
+    }
+}
+
+// MARK: - Updates Settings
+
+@MainActor
+struct UpdatesSettingsView: View {
+    @State private var updateService = UpdateService.shared
+
+    var body: some View {
+        Form {
+            Section("Application Updates") {
+                VStack(alignment: .leading, spacing: 12) {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Spacewingstool v\(UpdateService.shared.currentVersion)")
+                                .fontWeight(.medium)
+                            if let latest = updateService.latestVersion {
+                                Text("Latest: v\(latest)")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                        Spacer()
+                        if updateService.updateAvailable {
+                            Label("Update Available", systemImage: "arrow.down.circle.fill")
+                                .foregroundStyle(.blue)
+                                .font(.caption)
+                        } else if updateService.lastCheckResult != nil && !updateService.updateAvailable {
+                            Label("Up to Date", systemImage: "checkmark.circle.fill")
+                                .foregroundStyle(.green)
+                                .font(.caption)
+                        }
+                    }
+
+                    if updateService.isChecking {
+                        HStack(spacing: 8) {
+                            ProgressView()
+                                .scaleEffect(0.8)
+                            Text("Checking for updates...")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+
+                    if let error = updateService.lastError {
+                        HStack {
+                            Image(systemName: "exclamationmark.triangle.fill")
+                                .foregroundStyle(.orange)
+                            Text(error)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+
+                    if let notes = updateService.releaseNotes, updateService.updateAvailable {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Release Notes")
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                            ScrollView {
+                                Text(notes)
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            }
+                            .frame(maxHeight: 120)
+                            .padding(8)
+                            .background(.fill.quaternary)
+                            .clipShape(.rect(cornerRadius: 6))
+                        }
+                    }
+
+                    HStack(spacing: 12) {
+                        Button("Check for Updates") {
+                            Task { await updateService.forceCheck() }
+                        }
+                        .disabled(updateService.isChecking)
+
+                        if updateService.updateAvailable {
+                            Button("Download & Install") {
+                                Task {
+                                    do {
+                                        try await updateService.downloadAndInstall()
+                                    } catch {
+                                        updateService.lastError = error.localizedDescription
+                                    }
+                                }
+                            }
+                            .disabled(updateService.isDownloading)
+                            .buttonStyle(.borderedProminent)
+                        }
+
+                        Button("Open GitHub Releases") {
+                            updateService.openReleasePage()
+                        }
+                        .buttonStyle(.plain)
+                        .font(.caption)
+                    }
+
+                    if updateService.isDownloading {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Downloading...")
+                                .font(.caption)
+                            ProgressView(value: updateService.downloadProgress)
+                                .progressViewStyle(.linear)
+                        }
+                    }
+
+                    if let lastCheck = updateService.lastCheckDate {
+                        Text("Last checked: \(lastCheck.formatted(date: .abbreviated, time: .shortened))")
+                            .font(.caption2)
+                            .foregroundStyle(.tertiary)
+                    }
+                }
+            }
+        }
+        .formStyle(.grouped)
+        .task {
+            // On first open, check silently if never checked before
+            if updateService.lastCheckDate == nil {
+                await updateService.checkForUpdates()
+            }
         }
     }
 }

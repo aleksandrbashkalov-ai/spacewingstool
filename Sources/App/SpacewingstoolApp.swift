@@ -101,6 +101,12 @@ enum AppSetup {
         await startMeetingTracker()
         await CoachingService.shared.start()
         observeThermalChanges()
+        await checkForUpdates()
+    }
+
+    @MainActor
+    private static func checkForUpdates() async {
+        await UpdateService.shared.checkForUpdates()
     }
 
     @MainActor

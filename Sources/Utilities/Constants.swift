@@ -2,8 +2,10 @@ import Foundation
 
 public enum Constants {
     public static let appName = "Spacewingstool"
-    public static let appVersion = "1.2.0"
+    public static let appVersion = "1.3.0"
     public static let appBundleID = "com.spacewingstool.app"
+    /// GitHub repository for auto-updates (owner/repo)
+    public static let githubRepo = "aleksandrbashkalov-ai/spacewingstool"
 
     public static let defaultPollingInterval: TimeInterval = 2.0
     public static let maxSnapshotCount = 50
