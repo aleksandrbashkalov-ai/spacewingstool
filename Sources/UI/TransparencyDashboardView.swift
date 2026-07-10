@@ -121,9 +121,9 @@ struct TransparencyDashboardView: View {
             }
 
             deepWorkRow(label: L10n.score.localized, value: "\(Int(deepWorkAnalysis.deepWorkScore))/100")
-            deepWorkRow(label: L10n.totalToday.localized, value: formatDuration(deepWorkAnalysis.totalDeepWorkToday))
+            deepWorkRow(label: L10n.totalToday.localized, value: deepWorkAnalysis.totalDeepWorkToday.formatDuration())
             deepWorkRow(label: L10n.sessions.localized, value: "\(deepWorkAnalysis.sessionsToday.count)")
-            deepWorkRow(label: L10n.longestSession.localized, value: formatDuration(deepWorkAnalysis.longestSessionToday))
+            deepWorkRow(label: L10n.longestSession.localized, value: deepWorkAnalysis.longestSessionToday.formatDuration())
             deepWorkRow(label: L10n.contextSwitchesPerHour.localized, value: String(format: "%.1f", deepWorkAnalysis.contextSwitchesPerHour))
 
             if !deepWorkAnalysis.peakDeepWorkHours.isEmpty {
@@ -140,7 +140,7 @@ struct TransparencyDashboardView: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Image(systemName: burnoutSignals.riskLevel == .low ? "face.smiling" : "exclamationmark.triangle")
-                    .foregroundStyle(burnoutColor(burnoutSignals.riskLevel))
+                    .foregroundStyle(Color.burnoutColor(burnoutSignals.riskLevel))
                 Text(L10n.burnoutSignals.localized)
                     .font(.subheadline)
                     .fontWeight(.semibold)
@@ -149,16 +149,16 @@ struct TransparencyDashboardView: View {
                     .font(.caption)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 2)
-                    .background(burnoutColor(burnoutSignals.riskLevel).opacity(0.2))
+                    .background(Color.burnoutColor(burnoutSignals.riskLevel).opacity(0.2))
                     .clipShape(.rect(cornerRadius: 4))
             }
 
             burnoutRow(label: L10n.riskLevel.localized, value: burnoutSignals.riskLevel.rawValue)
-            burnoutRow(label: L10n.overtimeToday.localized, value: formatDuration(burnoutSignals.overtimeHoursToday))
-            burnoutRow(label: L10n.nightWorkWeek.localized, value: formatDuration(burnoutSignals.nightWorkHoursThisWeek))
-            burnoutRow(label: L10n.weekendWorkWeek.localized, value: formatDuration(burnoutSignals.weekendWorkHoursThisWeek))
+            burnoutRow(label: L10n.overtimeToday.localized, value: burnoutSignals.overtimeHoursToday.formatDuration())
+            burnoutRow(label: L10n.nightWorkWeek.localized, value: burnoutSignals.nightWorkHoursThisWeek.formatDuration())
+            burnoutRow(label: L10n.weekendWorkWeek.localized, value: burnoutSignals.weekendWorkHoursThisWeek.formatDuration())
             burnoutRow(label: L10n.meetingOverload.localized, value: "\(Int(burnoutSignals.meetingOverloadRatio * 100))%")
-            burnoutRow(label: L10n.avgWorkday.localized, value: formatDuration(burnoutSignals.averageWorkdayDuration))
+            burnoutRow(label: L10n.avgWorkday.localized, value: burnoutSignals.averageWorkdayDuration.formatDuration())
         }
         .padding()
         .background(.fill.quinary)
@@ -218,27 +218,12 @@ struct TransparencyDashboardView: View {
         }
     }
 
-    private func burnoutColor(_ level: BurnoutRiskLevel) -> Color {
-        switch level {
-        case .low: return .green
-        case .moderate: return .yellow
-        case .high: return .orange
-        case .critical: return .red
-        }
-    }
-
     private func refresh() async {
         trackerState = await coachingService.getTrackerState()
         deepWorkAnalysis = await coachingService.analyzeDeepWork(for: Date())
         burnoutSignals = await coachingService.detectBurnoutSignals(for: Date())
     }
 
-    private func formatDuration(_ interval: TimeInterval) -> String {
-        let hours = Int(interval / 3600)
-        let minutes = Int((interval.truncatingRemainder(dividingBy: 3600)) / 60)
-        if hours > 0 { return "\(hours)h \(minutes)m" }
-        return "\(minutes)m"
-    }
 }
 
 #Preview {

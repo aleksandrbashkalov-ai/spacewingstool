@@ -9,7 +9,7 @@ struct AISettingsView: View {
     var body: some View {
         @Bindable var store = settings
         Form {
-            Section(L10n.aiEnhancement.localized) {
+            Section(L10n.smartFeatures.localized) {
                 Toggle(L10n.useAIEnhancement.localized, isOn: $store.useAIEnhancement)
                 if store.useAIEnhancement {
                     Picker(L10n.aiType.localized, selection: $store.useAIType) {

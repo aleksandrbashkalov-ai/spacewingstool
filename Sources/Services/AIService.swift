@@ -87,11 +87,16 @@ public actor AIService {
 
     private func generateSuggestion(score: Double) -> String {
         switch score {
-        case 80...100: return "Excellent focus! Keep up the great work."
-        case 60..<80: return "Good session. Try to minimize distractions."
-        case 40..<60: return "Moderate productivity. Consider using Deep Work mode."
-        case 20..<40: return "Low focus detected. Block distracting apps?"
-        default: return "High distraction. Take a break and refocus."
+        case 80...100:
+            return "Focus score \(Int(score)) — well maintained."
+        case 60..<80:
+            return "Focus score \(Int(score)) — \(Int(100 - score)) point drop from optimal. Check if background apps are pulling attention."
+        case 40..<60:
+            return "Focus score \(Int(score)) — moderate fragmentation. Consider enabling Deep Work mode to group similar tasks."
+        case 20..<40:
+            return "Focus score \(Int(score)) — frequent switching detected. Try blocking known distractors for the next 25 minutes."
+        default:
+            return "Focus score \(Int(score)) — very high switching rate. A short break may help reset attention."
         }
     }
 

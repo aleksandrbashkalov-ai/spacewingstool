@@ -94,7 +94,7 @@ public enum L10n: String, Sendable, CaseIterable {
     case meetingTracking
     case trackMeetings
     case recordMeetingAudio
-    case aiEnhancement
+    case smartFeatures
     case useAIEnhancement
     case aiType
     case localAIOnly
@@ -144,7 +144,7 @@ public enum L10n: String, Sendable, CaseIterable {
     case timeline
     case coach
     case monitor
-    case aiProductivityCoach
+    case productivityCoach
     case refresh
     case recommendationsCount
     case noRecommendations
@@ -294,7 +294,7 @@ private enum Translations {
             .meetingTracking: "Meeting Tracking",
             .trackMeetings: "Track Meetings",
             .recordMeetingAudio: "Record Meeting Audio",
-            .aiEnhancement: "AI Enhancement",
+            .smartFeatures: "Smart Features",
             .useAIEnhancement: "Use AI Enhancement",
             .aiType: "AI Type",
             .localAIOnly: "Local AI Only",
@@ -344,7 +344,7 @@ private enum Translations {
             .timeline: "Timeline",
             .coach: "Coach",
             .monitor: "Monitor",
-            .aiProductivityCoach: "AI Productivity Coach",
+            .productivityCoach: "Productivity Coach",
             .refresh: "Refresh",
             .recommendationsCount: "%d recommendations",
             .noRecommendations: "No Recommendations",
@@ -459,7 +459,7 @@ private enum Translations {
             .meetingTracking: "Seguimiento de reuniones",
             .trackMeetings: "Rastrear reuniones",
             .recordMeetingAudio: "Grabar audio de reuniones",
-            .aiEnhancement: "Mejora con IA",
+            .smartFeatures: "Funciones inteligentes",
             .useAIEnhancement: "Usar mejora con IA",
             .aiType: "Tipo de IA",
             .localAIOnly: "Solo IA local",
@@ -509,7 +509,7 @@ private enum Translations {
             .timeline: "Línea de tiempo",
             .coach: "Entrenador",
             .monitor: "Monitor",
-            .aiProductivityCoach: "Entrenador de productividad IA",
+            .productivityCoach: "Entrenador de productividad",
             .refresh: "Actualizar",
             .recommendationsCount: "%d recomendaciones",
             .noRecommendations: "Sin recomendaciones",
@@ -624,7 +624,7 @@ private enum Translations {
             .meetingTracking: "Suivi des réunions",
             .trackMeetings: "Suivre les réunions",
             .recordMeetingAudio: "Enregistrer l'audio des réunions",
-            .aiEnhancement: "Amélioration par IA",
+            .smartFeatures: "Fonctionnalités intelligentes",
             .useAIEnhancement: "Utiliser l'amélioration par IA",
             .aiType: "Type d'IA",
             .localAIOnly: "IA locale uniquement",
@@ -674,7 +674,7 @@ private enum Translations {
             .timeline: "Chronologie",
             .coach: "Coach",
             .monitor: "Moniteur",
-            .aiProductivityCoach: "Coach de productivité IA",
+            .productivityCoach: "Coach de productivité",
             .refresh: "Actualiser",
             .recommendationsCount: "%d recommandations",
             .noRecommendations: "Aucune recommandation",
@@ -772,7 +772,7 @@ private enum Translations {
             .meetingTracking: "Besprechungsverfolgung",
             .trackMeetings: "Besprechungen aufzeichnen",
             .recordMeetingAudio: "Besprechungsaudio aufnehmen",
-            .aiEnhancement: "KI-Verbesserung",
+            .smartFeatures: "Intelligente Funktionen",
             .useAIEnhancement: "KI-Verbesserung verwenden",
             .aiType: "KI-Typ",
             .localAIOnly: "Nur lokale KI",
@@ -822,7 +822,7 @@ private enum Translations {
             .timeline: "Zeitleiste",
             .coach: "Coach",
             .monitor: "Monitor",
-            .aiProductivityCoach: "KI-Produktivitätscoach",
+            .productivityCoach: "Produktivitätscoach",
             .refresh: "Aktualisieren",
             .recommendationsCount: "%d Empfehlungen",
             .noRecommendations: "Keine Empfehlungen",
@@ -920,7 +920,7 @@ private enum Translations {
             .meetingTracking: "تتبع الاجتماعات",
             .trackMeetings: "تتبع الاجتماعات",
             .recordMeetingAudio: "تسجيل صوت الاجتماع",
-            .aiEnhancement: "تحسين الذكاء الاصطناعي",
+            .smartFeatures: "ميزات ذكية",
             .useAIEnhancement: "استخدام تحسين الذكاء الاصطناعي",
             .aiType: "نوع الذكاء الاصطناعي",
             .localAIOnly: "محلي فقط",
@@ -970,7 +970,7 @@ private enum Translations {
             .timeline: "الجدول الزمني",
             .coach: "المدرب",
             .monitor: "المراقب",
-            .aiProductivityCoach: "مدرب الإنتاجية بالذكاء الاصطناعي",
+            .productivityCoach: "مدرب الإنتاجية",
             .refresh: "تحديث",
             .recommendationsCount: "%d توصية",
             .noRecommendations: "لا توجد توصيات",

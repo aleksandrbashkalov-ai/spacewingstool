@@ -294,7 +294,7 @@ public actor CoachingService {
             advice.append(CoachingAdvice(
                 type: .wellbeing,
                 title: "Overtime Alert",
-                description: "You've worked \(formatDuration(burnout.overtimeHoursToday)) overtime today. Extended hours reduce productivity.",
+                description: "You've worked \(burnout.overtimeHoursToday.formatDuration()) overtime today. Extended hours reduce productivity.",
                 priority: .high,
                 actionItem: "Set a hard stop time for today",
                 category: "wellbeing"
@@ -339,7 +339,7 @@ public actor CoachingService {
             advice.append(CoachingAdvice(
                 type: .wellbeing,
                 title: "Long Workdays",
-                description: "Your average workday is \(formatDuration(burnout.averageWorkdayDuration)). Aim for 8-hour days to maintain sustainable productivity.",
+                description: "Your average workday is \(burnout.averageWorkdayDuration.formatDuration()). Aim for 8-hour days to maintain sustainable productivity.",
                 priority: .medium,
                 actionItem: "Set a daily quitting time and stick to it",
                 category: "wellbeing"
@@ -654,12 +654,6 @@ public actor CoachingService {
         )
     }
 
-    private func formatDuration(_ interval: TimeInterval) -> String {
-        let hours = Int(interval / 3600)
-        let minutes = Int((interval.truncatingRemainder(dividingBy: 3600)) / 60)
-        if hours > 0 { return "\(hours)h \(minutes)m" }
-        return "\(minutes)m"
-    }
 }
 
 extension AdvicePriority {

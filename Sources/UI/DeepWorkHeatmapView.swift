@@ -46,7 +46,7 @@ struct DeepWorkHeatmapView: View {
                     Circle()
                         .fill(color(for: hours))
                         .frame(width: 8, height: 8)
-                    Text("\(date.formatted(date: .abbreviated, time: .omitted)) — \(formatDuration(hours))")
+                    Text("\(date.formatted(date: .abbreviated, time: .omitted)) — \(hours.formatDuration())")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -157,7 +157,7 @@ struct DeepWorkHeatmapView: View {
                 .cornerRadius(2)
         }
         .buttonStyle(.plain)
-        .accessibilityLabel("\(date.formatted(date: .abbreviated, time: .omitted)): \(formatDuration(hours)) of deep work")
+        .accessibilityLabel("\(date.formatted(date: .abbreviated, time: .omitted)): \(hours.formatDuration()) of deep work")
     }
 
     private func color(for hours: TimeInterval) -> Color {
@@ -197,13 +197,6 @@ struct DeepWorkHeatmapView: View {
         let startSunday = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: start))!
         let offset = dayIndex + 1 - (weekday == 1 ? 0 : weekday - 1)
         return calendar.date(byAdding: .day, value: weekIndex * 7 + offset, to: startSunday)
-    }
-
-    private func formatDuration(_ interval: TimeInterval) -> String {
-        let hours = Int(interval / 3600)
-        let minutes = Int((interval.truncatingRemainder(dividingBy: 3600)) / 60)
-        if hours > 0 { return "\(hours)h \(minutes)m" }
-        return "\(minutes)m"
     }
 
     private func loadData() async {

@@ -25,16 +25,16 @@ public protocol AIProvider: Sendable {
 public enum AIPromptTemplates {
     public static func dailySummary(report: DailyReport) -> (system: String, user: String) {
         let system = """
-        You are a productivity assistant analyzing a daily activity report. \
-        Provide a concise, actionable summary in 3-5 sentences. Highlight \
-        top activities, productivity trends, and suggest one improvement.
+        Analyze the daily activity report below and provide a concise, \
+        actionable summary in 3-5 sentences. Highlight top activities, \
+        productivity trends, and suggest one specific improvement.
         """
         let breakdownLines = report.activityBreakdown
-            .map { "  - \($0.key): \(formatDuration($0.value))" }
+            .map { "  - \($0.key): \($0.value.formatDuration())" }
             .joined(separator: "\n")
         let user = """
         Daily Activity Report:
-        - Total Active Time: \(formatDuration(report.totalActiveTime))
+        - Total Active Time: \(report.totalActiveTime.formatDuration())
         - Estimated Productivity: \(Int(report.estimatedProductivity * 100))%
         - Meetings: \(report.meetingsCount)
         - Emails Processed: \(report.emailsProcessed)
@@ -53,13 +53,12 @@ public enum AIPromptTemplates {
 
     public static func weeklySummary(report: WeeklyReport) -> (system: String, user: String) {
         let system = """
-        You are a productivity assistant analyzing a weekly activity report. \
-        Summarize trends, compare days, and provide 2-3 actionable recommendations \
-        for the upcoming week.
+        Analyze the weekly activity report below. Summarize trends, compare \
+        days, and provide 2-3 actionable recommendations for the upcoming week.
         """
         let user = """
         Weekly Activity Report (\(formatDate(report.weekStart)) - \(formatDate(report.weekEnd))):
-        - Total Active Time: \(formatDuration(report.totalActiveTime))
+        - Total Active Time: \(report.totalActiveTime.formatDuration())
         - Average Daily Productivity: \(Int(report.avgProductivity * 100))%
         - Trend: \(report.trend)
         - Total Meetings: \(report.meetingsTotal)
@@ -67,7 +66,7 @@ public enum AIPromptTemplates {
 
         Daily Breakdown:
         \(report.dailyReports.map { day in
-            "  \(formatDate(day.date)): \(formatDuration(day.totalActiveTime)) (prod: \(Int(day.estimatedProductivity * 100))%)"
+            "  \(formatDate(day.date)): \(day.totalActiveTime.formatDuration()) (prod: \(Int(day.estimatedProductivity * 100))%)"
         }.joined(separator: "\n"))
 
         Top Apps This Week: \(report.topApps.map(\.name).joined(separator: ", "))
@@ -77,9 +76,9 @@ public enum AIPromptTemplates {
 
     public static func queryResponse(query: String, result: QueryResult) -> (system: String, user: String) {
         let system = """
-        You are an assistant answering questions about the user's activity history. \
-        Use the provided data to answer concisely and accurately. If the data doesn't \
-        fully answer the question, say so.
+        Answer the question about the user's activity history using the provided \
+        data. Be concise and accurate. If the data doesn't fully answer the \
+        question, say so.
         """
         let user = """
         Query: "\(query)"
@@ -96,9 +95,8 @@ public enum AIPromptTemplates {
 
     public static func taskPrioritization(tasks: [ExtractedTask]) -> (system: String, user: String) {
         let system = """
-        You are a task management assistant. Review the extracted tasks and \
-        prioritize them. Group by urgency, suggest deadlines, and identify \
-        the top 3 most important tasks.
+        Review the extracted tasks and prioritize them. Group by urgency, \
+        suggest deadlines, and identify the top 3 most important tasks.
         """
         let taskLines = tasks.map { t in
             let deadline = t.deadline.map { " (due: \(formatDate($0)))" } ?? ""
@@ -117,9 +115,9 @@ public enum AIPromptTemplates {
 
     public static func coachingAdvice(advice: [CoachingAdvice]) -> (system: String, user: String) {
         let system = """
-        You are an AI productivity coach. Review the detected patterns and \
-        provide personalized, actionable advice. Be concise and specific. \
-        For each piece of advice, output one line: "Title: Description".
+        Review the detected patterns and refine each piece of advice into \
+        specific, actionable guidance. Be concise. For each, output one line: \
+        "Title: Description".
         """
         let adviceLines = advice.map { a in
             "[\(a.priority.rawValue)] \(a.type.rawValue): \(a.title) — \(a.description)"
@@ -137,9 +135,9 @@ public enum AIPromptTemplates {
 
     public static func readingAgent(sessions: [ReadingSession]) -> (system: String, user: String) {
         let system = """
-        You are a Reading Intelligence Agent. Analyze the user's reading activity \
-        and provide insights about content consumption patterns, reading speed, \
-        and suggestions for better information retention.
+        Analyze the user's reading activity below. Provide insights about \
+        content consumption patterns, reading speed, and suggestions for \
+        better information retention.
         """
         let sessionLines = sessions.map { s in
             "  - \"\(s.title)\" on \(s.browser) (\(Int(s.duration / 60)) min, \(s.wordsRead) words)"
@@ -150,9 +148,8 @@ public enum AIPromptTemplates {
 
     public static func writingAgent(sessions: [EditingSession]) -> (system: String, user: String) {
         let system = """
-        You are a Writing Intelligence Agent. Analyze writing sessions and \
-        provide insights about writing velocity, document focus, and suggestions \
-        for improving writing productivity.
+        Analyze the writing sessions below. Provide insights about writing \
+        velocity, document focus, and suggestions for improving productivity.
         """
         let sessionLines = sessions.map { s in
             "  - \"\(s.documentName ?? "Untitled")\" in \(s.appName) (\(Int(s.duration / 60)) min, \(s.keystrokeCount) keystrokes, \(Int(s.averageWPM)) WPM)"
@@ -163,9 +160,8 @@ public enum AIPromptTemplates {
 
     public static func emailAgent(sessions: [EmailSession]) -> (system: String, user: String) {
         let system = """
-        You are an Email Intelligence Agent. Analyze email activity and provide \
-        insights about communication patterns, response times, and suggestions \
-        for email management.
+        Analyze the email activity below. Provide insights about communication \
+        patterns, response times, and suggestions for email management.
         """
         let sessionLines = sessions.map { s in
             "  - From: \(s.senderName ?? "Unknown") — \"\(s.subject ?? "No subject")\" (\(Int(s.duration / 60)) min)"
@@ -176,9 +172,8 @@ public enum AIPromptTemplates {
 
     public static func mediaAgent(tracks: [MediaTrack]) -> (system: String, user: String) {
         let system = """
-        You are a Media Intelligence Agent. Analyze music listening patterns \
-        and provide insights about how media consumption affects productivity, \
-        mood, and focus.
+        Analyze the music listening patterns below. Provide insights about \
+        how media consumption affects productivity, mood, and focus.
         """
         let trackLines = tracks.map { t in
             "  - \(t.artist) — \(t.title) (\(t.platform), \(Int(t.duration / 60)) min)"
@@ -189,9 +184,8 @@ public enum AIPromptTemplates {
 
     public static func meetingAgent(sessions: [MeetingSession]) -> (system: String, user: String) {
         let system = """
-        You are a Meeting Intelligence Agent. Analyze meeting patterns and \
-        provide insights about meeting efficiency, participation, and suggestions \
-        for reducing meeting overload.
+        Analyze the meeting patterns below. Provide insights about meeting \
+        efficiency, participation, and suggestions for reducing meeting overload.
         """
         let sessionLines = sessions.map { s in
             "  - \"\(s.meetingTitle ?? "Untitled")\" on \(s.platform) (\(s.participantCount) participants, \(Int(s.duration / 60)) min)"
@@ -202,35 +196,28 @@ public enum AIPromptTemplates {
 
     public static func coachingPrompt(deepWork: DeepWorkAnalysis, burnout: BurnoutSignals) -> (system: String, user: String) {
         let system = """
-        You are an AI productivity coach. Based on the user's deep work analysis \
-        and burnout signals, provide 3-5 specific, actionable recommendations. \
-        Format each recommendation as a bullet point with a brief explanation.
+        Based on the user's deep work analysis and burnout signals below, \
+        provide 3-5 specific, actionable recommendations. Format each as a \
+        bullet point with a brief explanation.
         """
         let user = """
         Deep Work Analysis:
         - Score: \(Int(deepWork.deepWorkScore))/100
-        - Total Today: \(formatDuration(deepWork.totalDeepWorkToday))
+        - Total Today: \(deepWork.totalDeepWorkToday.formatDuration())
         - Sessions: \(deepWork.sessionsToday.count)
-        - Longest Session: \(formatDuration(deepWork.longestSessionToday))
+        - Longest Session: \(deepWork.longestSessionToday.formatDuration())
         - Context Switches/hour: \(Int(deepWork.contextSwitchesPerHour))
 
         Burnout Signals:
         - Risk Level: \(burnout.riskLevel.rawValue)
-        - Overtime Today: \(formatDuration(burnout.overtimeHoursToday))
-        - Night Work This Week: \(formatDuration(burnout.nightWorkHoursThisWeek))
+        - Overtime Today: \(burnout.overtimeHoursToday.formatDuration())
+        - Night Work This Week: \(burnout.nightWorkHoursThisWeek.formatDuration())
         - Meeting Overload: \(Int(burnout.meetingOverloadRatio * 100))%
-        - Avg Workday: \(formatDuration(burnout.averageWorkdayDuration))
+        - Avg Workday: \(burnout.averageWorkdayDuration.formatDuration())
 
         Provide specific, actionable coaching advice.
         """
         return (system, user)
-    }
-
-    private static func formatDuration(_ interval: TimeInterval) -> String {
-        let hours = Int(interval / 3600)
-        let minutes = Int((interval.truncatingRemainder(dividingBy: 3600)) / 60)
-        if hours > 0 { return "\(hours)h \(minutes)m" }
-        return "\(minutes)m"
     }
 
     private static func formatDate(_ date: Date) -> String {

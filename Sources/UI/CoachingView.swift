@@ -37,7 +37,7 @@ struct CoachingView: View {
                 HStack {
                     Image(systemName: "lightbulb.max.fill")
                         .foregroundStyle(.tint)
-                    Text(L10n.aiProductivityCoach.localized)
+                    Text(L10n.productivityCoach.localized)
                         .font(.headline)
                     Spacer()
                     if isGenerating {
@@ -120,7 +120,7 @@ struct CoachingView: View {
                             .fontWeight(.semibold)
                     }
                     metricRow(L10n.score.localized, "\(Int(deepWorkAnalysis.deepWorkScore))/100")
-                    metricRow(L10n.totalToday.localized, formatDuration(deepWorkAnalysis.totalDeepWorkToday))
+                    metricRow(L10n.totalToday.localized, deepWorkAnalysis.totalDeepWorkToday.formatDuration())
                     metricRow(L10n.sessions.localized, "\(deepWorkAnalysis.sessionsToday.count)")
                     metricRow(L10n.peakHours.localized, deepWorkAnalysis.peakDeepWorkHours.sorted().map { "\($0):00" }.joined(separator: ", "))
                 }
@@ -131,7 +131,7 @@ struct CoachingView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
                         Image(systemName: burnoutSignals.riskLevel == .low ? "face.smiling" : "exclamationmark.triangle")
-                            .foregroundStyle(burnoutColor(burnoutSignals.riskLevel))
+                            .foregroundStyle(Color.burnoutColor(burnoutSignals.riskLevel))
                         Text(L10n.wellbeing.localized)
                             .font(.subheadline)
                             .fontWeight(.semibold)
@@ -140,13 +140,13 @@ struct CoachingView: View {
                             .font(.caption)
                             .padding(.horizontal, 6)
                             .padding(.vertical, 2)
-                            .background(burnoutColor(burnoutSignals.riskLevel).opacity(0.2))
+                            .background(Color.burnoutColor(burnoutSignals.riskLevel).opacity(0.2))
                             .clipShape(.rect(cornerRadius: 4))
                     }
-                    metricRow(L10n.overtimeToday.localized, formatDuration(burnoutSignals.overtimeHoursToday))
-                    metricRow(L10n.nightWorkWeek.localized, formatDuration(burnoutSignals.nightWorkHoursThisWeek))
+                    metricRow(L10n.overtimeToday.localized, burnoutSignals.overtimeHoursToday.formatDuration())
+                    metricRow(L10n.nightWorkWeek.localized, burnoutSignals.nightWorkHoursThisWeek.formatDuration())
                     metricRow(L10n.meetingOverload.localized, "\(Int(burnoutSignals.meetingOverloadRatio * 100))%")
-                    metricRow(L10n.avgWorkday.localized, formatDuration(burnoutSignals.averageWorkdayDuration))
+                    metricRow(L10n.avgWorkday.localized, burnoutSignals.averageWorkdayDuration.formatDuration())
                 }
                 .padding()
                 .background(.fill.quinary)
@@ -160,7 +160,7 @@ struct CoachingView: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
                 Image(systemName: adviceIcon(advice.type))
-                    .foregroundStyle(priorityColor(advice.priority))
+                    .foregroundStyle(Color.priorityColor(advice.priority))
                 VStack(alignment: .leading) {
                     Text(advice.title)
                         .font(.headline)
@@ -231,32 +231,14 @@ struct CoachingView: View {
         }
     }
 
-    private func burnoutColor(_ level: BurnoutRiskLevel) -> Color {
-        switch level {
-        case .low: return .green
-        case .moderate: return .yellow
-        case .high: return .orange
-        case .critical: return .red
-        }
-    }
-
-    private func priorityColor(_ priority: AdvicePriority) -> Color {
-        switch priority {
-        case .low: return .gray
-        case .medium: return .blue
-        case .high: return .orange
-        case .critical: return .red
-        }
-    }
-
     private func priorityBadge(_ priority: AdvicePriority) -> some View {
         Text(priority.rawValue)
             .font(.caption2)
             .fontWeight(.semibold)
             .padding(.horizontal, 6)
             .padding(.vertical, 2)
-            .background(priorityColor(priority).opacity(0.2))
-            .foregroundStyle(priorityColor(priority))
+                    .background(Color.priorityColor(priority).opacity(0.2))
+            .foregroundStyle(Color.priorityColor(priority))
             .clipShape(.rect(cornerRadius: 4))
     }
 
@@ -270,12 +252,6 @@ struct CoachingView: View {
         }
     }
 
-    private func formatDuration(_ interval: TimeInterval) -> String {
-        let hours = Int(interval / 3600)
-        let minutes = Int((interval.truncatingRemainder(dividingBy: 3600)) / 60)
-        if hours > 0 { return "\(hours)h \(minutes)m" }
-        return "\(minutes)m"
-    }
 }
 
 @MainActor

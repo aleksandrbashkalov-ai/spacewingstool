@@ -95,7 +95,6 @@ struct OnboardingView: View {
             Image(systemName: step.icon)
                 .font(.system(size: 48))
                 .foregroundStyle(step.color)
-                .symbolEffect(.bounce, options: .nonRepeating, value: currentStep)
 
             Text(step.title.localized)
                 .font(.title2)

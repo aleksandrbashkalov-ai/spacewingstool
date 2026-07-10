@@ -31,7 +31,7 @@ struct SettingsView: View {
 
             AISettingsView()
                 .tabItem {
-                    Label(L10n.aiEnhancement.localized, systemImage: "brain")
+                    Label(L10n.smartFeatures.localized, systemImage: "brain")
                 }
 
             SettingsTimelineView()

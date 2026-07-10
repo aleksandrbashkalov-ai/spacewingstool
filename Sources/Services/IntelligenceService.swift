@@ -131,8 +131,8 @@ public actor IntelligenceService {
 
         let summaryParts: [String] = [
             "Found \(filtered.count) activities",
-            "Total time: \(formatDuration(totalTime))",
-        ] + typeSummary.map { "\($0.key.rawValue): \(formatDuration($0.value))" }
+            "Total time: \(totalTime.formatDuration())",
+        ] + typeSummary.map { "\($0.key.rawValue): \($0.value.formatDuration())" }
         let summary = summaryParts.joined(separator: "\n")
 
         var result = QueryResult(
@@ -265,7 +265,7 @@ public actor IntelligenceService {
         var events: [String] = []
         for record in records where record.duration > 1800 {
             if let title = record.title {
-                events.append("\(record.activityType.rawValue): \(title) (\(formatDuration(record.duration)))")
+                events.append("\(record.activityType.rawValue): \(title) (\(record.duration.formatDuration()))")
             }
         }
         return events
@@ -314,13 +314,6 @@ public actor IntelligenceService {
         if types.contains(.meeting) { spaces.append("Meetings") }
         if types.contains(.reading) { spaces.append("Research") }
         return spaces
-    }
-
-    private func formatDuration(_ interval: TimeInterval) -> String {
-        let hours = Int(interval / 3600)
-        let minutes = Int((interval.truncatingRemainder(dividingBy: 3600)) / 60)
-        if hours > 0 { return "\(hours)h \(minutes)m" }
-        return "\(minutes)m"
     }
 
     private func formatDate(_ date: Date) -> String {
